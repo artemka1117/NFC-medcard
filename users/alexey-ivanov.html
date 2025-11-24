@@ -2,16 +2,18 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Медицинская карта - Алексей Иванов</title>
     <link rel="stylesheet" href="../style.css">
     <script src="../script.js" defer></script>
 </head>
 <body>
-    <div class="container" style="max-width: 800px; margin: 2rem auto;">
+    <div class="container medcard-container">
         <!-- Шапка карточки -->
         <header class="medcard-header">
-            <img src="../assets/images/alexey.jpg" alt="Фото Алексей Иванов" onerror="this.style.display='none'">
+            <img src="../assets/images/alexey.jpg" alt="Фото Алексей Иванов" onerror="this.style.display='none'" loading="lazy">
             <div class="medcard-header-info">
                 <h1>Алексей Иванов</h1>
                 <p>Возраст: 35 лет | Год рождения: 1990</p>
@@ -42,7 +44,7 @@
                 <h2>🩸 Группа крови</h2>
                 <div class="info-item">
                     <strong>Группа крови и резус:</strong>
-                    <span style="font-size: 1.2rem; font-weight: bold; color: var(--primary-color);">A (II) Rh+</span>
+                    <span class="blood-type">A (II) Rh+</span>
                 </div>
             </section>
 
@@ -82,7 +84,7 @@
                 <h2>💉 Критические препараты</h2>
                 <div class="danger-box">
                     <strong>⚠️ ВАЖНО:</strong>
-                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                    <ul class="critical-meds-list">
                         <li>Носит с собой инсулин</li>
                         <li>При гипогликемии требуется быстрое введение сахара</li>
                         <li>При астме в кармане обычно находится ингалятор</li>
@@ -102,7 +104,7 @@
                         <li>Сальбутамол (ингалятор) при приступах астмы</li>
                     </ul>
                 </div>
-                <div class="warning-box" style="margin-top: 1rem;">
+                <div class="warning-box warning-box-spacing">
                     <strong>⚠️ Противопоказания:</strong>
                     <p><strong>Разрешено:</strong> глюкоза, сладкий чай</p>
                     <p><strong>Нельзя вводить:</strong> препараты пенициллинового ряда (аллергия)</p>
@@ -114,7 +116,7 @@
                 <h2>🔥 Первая помощь</h2>
                 <div class="danger-box">
                     <strong>КРИТИЧЕСКИ ВАЖНО:</strong>
-                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                    <ul class="first-aid-list">
                         <li><strong>🩸 При гипогликемии (низкий сахар):</strong> Дать сладкий напиток / глюкозную таблетку. Проверить сознание. Если не приходит в себя — вызвать скорую.</li>
                         <li><strong>🌬 При приступе астмы:</strong> Помочь использовать ингалятор. Посадить в удобное положение.</li>
                         <li><strong>⚠️ При анафилаксии (если была ошибка с продуктами / орехами):</strong> Ввести автоинъектор адреналина (если найден при себе). Вызвать скорую.</li>
