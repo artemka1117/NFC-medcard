@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Медицинская карта - Алексей Иванов</title>
+    <title>Медицинская карта</title>
     <link rel="stylesheet" href="../style.css">
     <script src="../script.js" defer></script>
 </head>
@@ -16,75 +14,50 @@
             <div class="hero-content">
                 <div class="hero-user">
                     <div class="hero-avatar">
-                        <img src="../assets/images/alexey.jpg" alt="Фото Алексей Иванов" onerror="this.style.display='none'" loading="lazy">
-                        <span class="hero-status">stable</span>
+                        <img id="user-photo" src="" alt="Фото пользователя" onerror="this.style.display='none'" loading="lazy">
                     </div>
                     <div>
                         <p class="hero-label">Medical ID • Critical access</p>
-                        <h1>Алексей Иванов</h1>
+                        <h1 id="user-name-main">Загрузка...</h1>
                         <ul class="hero-meta">
-                            <li>35 лет</li>
-                            <li>14.03.1990</li>
-                            <li>Группа крови — A (II) Rh+</li>
+                            <li id="user-age-hero"></li>
+                            <li id="user-blood-type-hero"></li>
                         </ul>
                     </div>
                 </div>
                 <div class="hero-actions">
-                    <a class="btn primary" href="tel:+79005551234">📞 Позвонить</a>
-                    <button class="btn secondary" onclick="printMedCard()">🖨️ Печать</button>
-                </div>
-            </div>
-            <div class="hero-badges">
-                <div class="hero-badge">
-                    <span>Глюкоза</span>
-                    <strong>При гипогликемии дать сразу</strong>
-                </div>
-                <div class="hero-badge">
-                    <span>Ингалятор</span>
-                    <strong>Всегда в правом кармане</strong>
-                </div>
-                <div class="hero-badge danger">
-                    <span>Аллергия</span>
-                    <strong>Пенициллин / Орехи</strong>
+                    <a id="emergency-call-btn" class="btn primary" href="">📞 Позвонить</a>
+                    <button class="btn secondary" onclick="window.print()">🖨️ Печать</button>
                 </div>
             </div>
         </header>
 
         <main class="medcard-sections">
+            <!-- Секция с основной информацией -->
             <section class="medcard-panel">
                 <div class="section-header">
                     <div>
                         <p class="section-label">Основные данные</p>
                         <h2>Паспорт здоровья</h2>
                     </div>
-                    <div class="chips">
-                        <span class="chip">ID: NFC-001A</span>
-                        <span class="chip">Online Sync</span>
-                    </div>
                 </div>
                 <div class="info-grid">
                     <article class="info-card">
                         <p class="info-card__label">Имя</p>
-                        <p class="info-card__value">Алексей Иванов</p>
+                        <p id="user-name-grid" class="info-card__value">...</p>
                     </article>
                     <article class="info-card">
-                        <p class="info-card__label">Дата рождения</p>
-                        <p class="info-card__value">14 марта 1990</p>
-                        <span class="info-card__meta">35 лет</span>
-                    </article>
-                    <article class="info-card">
-                        <p class="info-card__label">Контроль</p>
-                        <p class="info-card__value">1 раз / 3 мес</p>
-                        <span class="info-card__meta">обновлено: ноябрь 2025</span>
+                        <p class="info-card__label">Возраст</p>
+                        <p id="user-age-grid" class="info-card__value">...</p>
                     </article>
                     <article class="info-card highlight">
                         <p class="info-card__label">Кровь</p>
-                        <p class="info-card__value">A (II) Rh+</p>
-                        <span class="pill">Совместим с A / AB</span>
+                        <p id="user-blood-type-grid" class="info-card__value">...</p>
                     </article>
                 </div>
             </section>
 
+            <!-- Секция с критической информацией -->
             <section class="medcard-panel two-column">
                 <article class="info-card stretch">
                     <div class="section-label-row">
@@ -92,19 +65,8 @@
                         <span class="pill danger">High priority</span>
                     </div>
                     <h2>Хронические состояния</h2>
-                    <ul class="list-w-icons">
-                        <li>
-                            <span>Diabetes I</span>
-                            <small>Носит помпу с инсулином</small>
-                        </li>
-                        <li>
-                            <span>Артериальная гипертензия</span>
-                            <small>Норма: 120/80 • Контроль утром</small>
-                        </li>
-                        <li>
-                            <span>Лёгкая астма</span>
-                            <small>Ингалятор Salbutamol → правый карман</small>
-                        </li>
+                    <ul id="conditions-list" class="list-w-icons">
+                        <!-- Данные будут вставлены сюда -->
                     </ul>
                 </article>
                 <article class="info-card stretch">
@@ -113,84 +75,37 @@
                         <span class="pill warning">Critical</span>
                     </div>
                     <h2>Запрещено</h2>
-                    <div class="alert-list">
-                        <p>Пенициллин и производные</p>
-                        <p>Орехи и арахис</p>
-                        <p>Шерсть животных</p>
+                    <div id="allergies-list" class="alert-list">
+                        <!-- Данные будут вставлены сюда -->
                     </div>
-                    <p class="note">При контакте → возможна анафилаксия. Держать готовым автоинъектор.</p>
                 </article>
             </section>
 
+            <!-- Секция с медикаментами -->
             <section class="medcard-panel">
-                <div class="section-header">
+                 <div class="section-header">
                     <div>
                         <p class="section-label">Медикаменты</p>
-                        <h2>Терапия и допуск</h2>
+                        <h2>Терапия</h2>
                     </div>
                 </div>
-                <div class="cards-stack">
-                    <article class="med-pill">
-                        <div>
-                            <h3>Инсулин Лантус</h3>
-                            <p>10 ед. ежедневно</p>
-                        </div>
-                        <span class="pill ghost">Постоянно</span>
-                    </article>
-                    <article class="med-pill">
-                        <div>
-                            <h3>Инсулин Хумалог</h3>
-                            <p>Перед каждым приёмом пищи</p>
-                        </div>
-                        <span class="pill ghost">Постоянно</span>
-                    </article>
-                    <article class="med-pill">
-                        <div>
-                            <h3>Небиволол, 5 мг</h3>
-                            <p>Утром, контроль давления</p>
-                        </div>
-                    </article>
-                    <article class="med-pill">
-                        <div>
-                            <h3>Сальбутамол</h3>
-                            <p>Ингалятор при приступах астмы</p>
-                        </div>
-                        <span class="pill info">on demand</span>
-                    </article>
-                </div>
-                <div class="med-alert">
-                    <h3>⚠️ Противопоказания</h3>
-                    <p><strong>Разрешено:</strong> глюкоза, сладкий чай, глюкагон.</p>
-                    <p><strong>Запрещено:</strong> препараты пенициллинового ряда, β-блокаторы без консультации.</p>
+                <div id="medications-list" class="cards-stack">
+                    <!-- Данные будут вставлены сюда -->
                 </div>
             </section>
-
+            
+            <!-- Секция с доп. заметками -->
             <section class="medcard-panel">
                 <div class="section-header">
                     <div>
-                        <p class="section-label">Протокол действия</p>
-                        <h2>Первая помощь</h2>
-                    </div>
-                    <div class="chips">
-                        <span class="chip ghost">Обновлено 11/2025</span>
+                        <p class="section-label">Дополнительно</p>
+                        <h2>Заметки</h2>
                     </div>
                 </div>
-                <div class="timeline">
-                    <article class="timeline-step danger">
-                        <h3>🩸 Гипогликемия</h3>
-                        <p>Дать сладкий напиток / глюкозную таблетку. Проверить сознание и дыхание. Нет реакции → вызвать скорую.</p>
-                    </article>
-                    <article class="timeline-step info">
-                        <h3>🌬 Приступ астмы</h3>
-                        <p>Помочь использовать ингалятор. Посадить пациента, согреть руки, контролировать дыхание.</p>
-                    </article>
-                    <article class="timeline-step warning">
-                        <h3>⚠️ Анафилаксия</h3>
-                        <p>Немедленно ввести автоинъектор адреналина (если найден). Вызвать скорую и сообщить об аллергии.</p>
-                    </article>
-                </div>
+                <p id="additional-notes" class="note">...</p>
             </section>
 
+            <!-- Контакты -->
             <section class="medcard-panel contacts-panel">
                 <div class="section-header">
                     <div>
@@ -198,32 +113,11 @@
                         <h2>Кому звонить</h2>
                     </div>
                 </div>
-                <div class="contacts-grid">
-                    <article class="contact-tile">
-                        <div>
-                            <p class="contact-relation">Отец • ближайший родственник</p>
-                            <h3>Иван Иванов</h3>
-                        </div>
-                        <a class="contact-action" href="tel:+79005551234">📞 +7 900 555-12-34</a>
-                    </article>
-                    <article class="contact-tile">
-                        <div>
-                            <p class="contact-relation">Сестра • экстренный контакт</p>
-                            <h3>Мария Иванова</h3>
-                        </div>
-                        <a class="contact-action" href="tel:+79214402811">📞 +7 921 440-28-11</a>
-                    </article>
-                </div>
-                <div class="contact-note">
-                    <p>Тап по номеру сразу инициирует звонок. На десктопе номер копируется в буфер обмена.</p>
+                <div id="emergency-contact-container" class="contacts-grid">
+                    <!-- Данные будут вставлены сюда -->
                 </div>
             </section>
         </main>
     </div>
-
-    <div class="fab-call">
-        <a href="tel:+79005551234">SOS • Иван Иванов</a>
-    </div>
 </body>
 </html>
-
