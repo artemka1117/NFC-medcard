@@ -1,15 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Получаем параметр 'data' из URL
     const urlParams = new URLSearchParams(window.location.search);
     const dataParam = urlParams.get('data');
 
     if (dataParam) {
         try {
-            // 2. Декодируем строку из Base64 и парсим JSON
-            const decodedJson = atob(dataParam);
+            // ШАГ 1: Декодируем URL-безопасную строку Base64
+            // Заменяем '-' на '+' и '_' на '/'
+            const base64 = dataParam.replace(/-/g, '+').replace(/_/g, '/');
+            
+            // ШАГ 2: Декодируем Base64 в исходную строку (которая является UTF-8)
+            const utf8Decoded = atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join('');
+
+            // ШАГ 3: Декодируем UTF-8 проценты в читаемую строку
+            const decodedJson = decodeURIComponent(utf8Decoded);
+
+            // ШАГ 4: Парсим JSON
             const medicalInfo = JSON.parse(decodedJson);
 
-            // 3. Вызываем функцию для заполнения страницы
             populatePage(medicalInfo);
             
         } catch (error) {
@@ -17,19 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.innerHTML = "<h1>Ошибка: Неверный формат данных в QR-коде.</h1>";
         }
     } else {
-        // Если параметра 'data' нет, показываем ошибку
         document.body.innerHTML = "<h1>Ошибка: Данные не найдены.</h1><p>Отсканируйте QR-код из приложения Health ID.</p>";
     }
 });
 
 function populatePage(data) {
-    // Безопасно вставляем текстовые данные
     const setText = (id, text) => {
         const element = document.getElementById(id);
         if (element) element.textContent = text || 'не указано';
     };
     
-    // Функция для создания списков
     const createList = (containerId, items, itemClass, isAlert = false) => {
         const container = document.getElementById(containerId);
         if (!container || !items || items.length === 0) {
@@ -37,7 +43,7 @@ function populatePage(data) {
             return;
         }
         
-        container.innerHTML = ''; // Очищаем контейнер
+        container.innerHTML = '';
         items.forEach(itemText => {
             if (itemText) {
                 const item = document.createElement(isAlert ? 'p' : 'li');
@@ -48,29 +54,24 @@ function populatePage(data) {
         });
     };
 
-    // Заполняем заголовок
     document.title = `Мед. карта - ${data.name}`;
     setText('user-name-main', data.name);
     setText('user-age-hero', `${data.age} лет`);
     setText('user-blood-type-hero', `Группа крови — ${data.bloodType}`);
     
-    // Устанавливаем фото (если есть)
     const userPhoto = document.getElementById('user-photo');
     if (data.photoUrl && userPhoto) {
         userPhoto.src = data.photoUrl;
         userPhoto.style.display = 'block';
     }
 
-    // Заполняем основную сетку
     setText('user-name-grid', data.name);
     setText('user-age-grid', `${data.age} лет`);
     setText('user-blood-type-grid', data.bloodType);
 
-    // Заполняем списки
     createList('conditions-list', data.conditions, '');
     createList('allergies-list', data.allergies, '', true);
 
-    // Заполняем медикаменты
     const medsContainer = document.getElementById('medications-list');
     if (medsContainer && data.medications && data.medications.length > 0) {
         medsContainer.innerHTML = '';
@@ -86,10 +87,8 @@ function populatePage(data) {
         medsContainer.innerHTML = `<p class="note">Нет данных.</p>`;
     }
     
-    // Дополнительные заметки
     setText('additional-notes', data.additionalNotes || 'Нет данных.');
 
-    // Экстренный контакт
     const contactContainer = document.getElementById('emergency-contact-container');
     if (contactContainer && data.emergencyContact) {
         contactContainer.innerHTML = `
@@ -100,7 +99,6 @@ function populatePage(data) {
                 </div>
                 <a class="contact-action" href="tel:${data.emergencyContact}">📞 ${data.emergencyContact}</a>
             </article>`;
-        // Также обновляем главную кнопку звонка
         const mainCallBtn = document.getElementById('emergency-call-btn');
         if(mainCallBtn) mainCallBtn.href = `tel:${data.emergencyContact}`;
     } else if(contactContainer) {
